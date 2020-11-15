@@ -58,6 +58,11 @@ public class Photo extends DataObject {
 	public static final int MAX_THUMB_PHOTO_HEIGHT = 150;
 	
 	/**
+	 * Initialise location
+	 */
+	public Location loc = null;
+	
+	/**
 	 * 
 	 */
 	protected PhotoId id = null;
@@ -164,6 +169,15 @@ public class Photo extends DataObject {
 		creationTime = rset.getLong("creation_time");
 
 		maxPhotoSize = PhotoSize.getFromWidthHeight(width, height);
+		
+		//Declare Location loc
+		loc = new Location(
+				new Coordinate(
+						rset.getDouble("coordinate_x"),
+						rset.getDouble("coordinate_y"),
+						rset.getDouble("coordinate_z")
+						)
+		);
 	}
 	
 	/**
@@ -183,7 +197,14 @@ public class Photo extends DataObject {
 		rset.updateInt("status", status.asInt());
 		rset.updateInt("praise_sum", praiseSum);
 		rset.updateInt("no_votes", noVotes);
-		rset.updateLong("creation_time", creationTime);		
+		rset.updateLong("creation_time", creationTime);	
+		
+		//Add coordinates if location is not empty
+		if(loc != null){
+			rset.updateDouble("coordinate_x", loc.coordinate.getxCoordinate());
+			rset.updateDouble("coordinate_y", loc.coordinate.getyCoordinate());
+			rset.updateDouble("coordinate_z", loc.coordinate.getzCoordinate());
+		}
 	}
 
 	/**
