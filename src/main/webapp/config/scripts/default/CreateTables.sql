@@ -30,6 +30,18 @@ CREATE TABLE photos (
 	praise_sum integer,
 	no_votes integer,
 	creation_time bigint
+	
+	coordinate_x double precision,
+	coordinate_y double precision,
+	coordinate_z double precision,
+
+	buildingCompletionYear integer,
+	buildingCoverage double,
+	buildingType text,
+    	buildingFloor integer,
+    	buildingPrivateUse boolean,
+    	buildingPublicUse boolean,
+    	buildingCommercialUse boolean
 );
 
 CREATE TABLE tags (
