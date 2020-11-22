@@ -26,4 +26,18 @@ public class BuildingPhotoManager extends PhotoManager{
     protected BuildingPhoto createObject(ResultSet rset) throws SQLException {
         return BuildingPhotoFactory.getInstance().createBuildingPhoto(rset);
     }
+    
+    /**
+     * create a BuildingPhoto File to save picture
+     * @methodtype command
+     * @param file File where photo is stored
+     * @return BuildingPhoto Object
+     * @throws Exception
+     */
+    public BuildingPhoto createPhoto(File file) throws Exception {
+        PhotoId id = PhotoId.getNextId();
+        BuildingPhoto pic = (BuildingPhoto) PhotoUtil.createPhoto(file, id);
+        addPhoto(pic);
+        return pic;
+    }
 }
