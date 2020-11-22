@@ -90,7 +90,7 @@ public class Coordinate {
     }
 
 
-    /**
+     /**
      * compares two coordinates in order to determine if they are equal
      * @methodtype boolean-query
      * @param c other coordinate with which comparison is made
@@ -101,9 +101,33 @@ public class Coordinate {
         Double x = c.getxCoordinate();
         Double y = c.getyCoordinate();
         Double z = c.getzCoordinate();
-        return (x.equals(xCoordinate) && y.equals(yCoordinate) && z.equals(zCoordinate));
+        return (x.compareTo(xCoordinate) == 0 && y.compareTo(yCoordinate) == 0 && z.compareTo(zCoordinate) == 0);
     }
 
+    /**
+     * Override of equals() to verify if given and current objects are the same
+     * @methodtype comparison
+     * @param o type Object
+     * @return true if object equals current instance
+     */
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (o == this) return true;
+        if(o == null) return false;
+        if (!(o instanceof Coordinate)) {
+            return false;
+        }
+
+        Coordinate c = (Coordinate) o;
+        return isEqual(c);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(xCoordinate, yCoordinate, zCoordinate);
+    }
 }
 
 
