@@ -104,4 +104,24 @@ public class Building {
     public void setCommercialUse(boolean commercialUse) {
         this.commercialUse = commercialUse;
     }
+    
+        @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Building building = (Building) o;
+        return completionYear == building.completionYear &&
+                Double.compare(building.coverage, coverage) == 0 &&
+                floor == building.floor &&
+                privateUse == building.privateUse &&
+                publicUse == building.publicUse &&
+                commercialUse == building.commercialUse &&
+                Objects.equals(type, building.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(completionYear, coverage, type, floor, privateUse, publicUse, commercialUse);
+    }
+    
 }
