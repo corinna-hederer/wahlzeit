@@ -1,5 +1,7 @@
 package org.wahlzeit.model;
 
+import java.util.Objects;
+
 /**
  * A building is a relatively permanent enclosed construction over a plot of land, having usually a roof and walls,
  * and is used for any of a wide variety of activities
