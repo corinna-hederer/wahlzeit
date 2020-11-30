@@ -172,7 +172,7 @@ public class Photo extends DataObject {
 		
 		//Declare Location loc
 		loc = new Location(
-				new Coordinate(
+				new CartesianCoordinate(
 						rset.getDouble("coordinate_x"),
 						rset.getDouble("coordinate_y"),
 						rset.getDouble("coordinate_z")
@@ -201,9 +201,9 @@ public class Photo extends DataObject {
 		
 		//Add coordinates if location is not empty
 		if(loc != null){
-			rset.updateDouble("coordinate_x", loc.coordinate.getxCoordinate());
-			rset.updateDouble("coordinate_y", loc.coordinate.getyCoordinate());
-			rset.updateDouble("coordinate_z", loc.coordinate.getzCoordinate());
+			rset.updateDouble("coordinate_x", loc.cartesianCoordinate.getxCoordinate());
+			rset.updateDouble("coordinate_y", loc.cartesianCoordinate.getyCoordinate());
+			rset.updateDouble("coordinate_z", loc.cartesianCoordinate.getzCoordinate());
 		}
 	}
 
