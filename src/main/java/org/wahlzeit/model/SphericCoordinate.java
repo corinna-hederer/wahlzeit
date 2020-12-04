@@ -2,7 +2,7 @@ package org.wahlzeit.model;
 
 import java.util.Objects;
 
-public class SphericCoordinate implements Coordinate{
+public class SphericCoordinate extends AbstractCoordinate{
 
     /**
      * @param phi latitude
