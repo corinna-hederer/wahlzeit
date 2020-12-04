@@ -6,7 +6,7 @@ import java.util.Objects;
  * A cartesianCoordinate represents the exact position in a three-dimensional space where a photo was taken
  */
 
-public class CartesianCoordinate implements Coordinate{
+public class CartesianCoordinate extends AbstractCoordinate{
 
     private double xCoordinate;
     private double yCoordinate;
@@ -75,60 +75,7 @@ public class CartesianCoordinate implements Coordinate{
     }
 
 
-    /**
-     * computes the direct cartesian distance of two coordinates
-     * @methodtype calculation
-     * @param c other cartesianCoordinate to which distance should be calculated
-     * @return distance between the two coordinates
-     */
-
-    public double getDistance(CartesianCoordinate c){
-        double distance = Math.sqrt(Math.pow((c.getxCoordinate() - this.xCoordinate), 2) +
-                Math.pow((c.getyCoordinate() - this.yCoordinate), 2) +
-                Math.pow((c.getzCoordinate() - this.zCoordinate), 2) );
-        return distance;
-    }
-
-
-    /**
-     * compares two coordinates in order to determine if they are equal
-     * @methodtype boolean-query
-     * @param c other cartesianCoordinate with which comparison is made
-     * @return true, if coordinates are equal; false if they are not
-     */
-
-    public boolean isEqual(CartesianCoordinate c) {
-        Double x = c.getxCoordinate();
-        Double y = c.getyCoordinate();
-        Double z = c.getzCoordinate();
-        return (x.compareTo(xCoordinate) == 0 && y.compareTo(yCoordinate) == 0 && z.compareTo(zCoordinate) == 0);
-    }
-
-    /**
-     * Override of equals() to verify if given and current objects are the same
-     * @methodtype comparison
-     * @param o type Object
-     * @return true if object equals current instance
-     */
-
-    @Override
-    public boolean equals(Object o) {
-
-        if (o == this) return true;
-        if(o == null) return false;
-        if (!(o instanceof CartesianCoordinate)) {
-            return false;
-        }
-
-        CartesianCoordinate c = (CartesianCoordinate) o;
-        return isEqual(c);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(xCoordinate, yCoordinate, zCoordinate);
-    }
-
+ 
     /**
      * Implements methods in interface Coordinate
      */
@@ -143,15 +90,7 @@ public class CartesianCoordinate implements Coordinate{
         return this;
     }
 
-    /**
-     * Interpret coordinate as cartesian and get distance between two of them
-     * @methodtype get
-     */
-    @Override
-    public double getCartesianDistance(Coordinate coordinate) {
-        return this.getDistance(coordinate.asCartesianCoordinate());
-    }
-
+   
     /**
      * Transforms cartesian coordinate into spheric coordinate
      * @methodtype command method
@@ -166,29 +105,5 @@ public class CartesianCoordinate implements Coordinate{
         SphericCoordinate sphericCoordinate = new SphericCoordinate(phi, theta, radius);
         return sphericCoordinate;
     }
-
-    /**
-     * Transform cartesian coordinate into spheric coordinate and get central angle between two of these
-     * @methodtype get
-     * @return centralAngle great circle distance
-     */
-    @Override
-    public double getCentralAngle(Coordinate coordinate) {
-        return this.asSphericCoordinate().getCentralAngle(coordinate);
-    }
-
-    /**
-     * Compares equality of two coordinates by using a maximal derivation of 0.00001
-     * @methodtype boolean query
-     */
-    @Override
-    public boolean isEqual(Coordinate coordinate) {
-        CartesianCoordinate cartesianCoordinate = coordinate.asCartesianCoordinate();
-        double tolerance = 0.00001;
-        boolean x_equals = Math.abs(cartesianCoordinate.getxCoordinate() - this.xCoordinate) <= tolerance;
-        boolean y_equals = Math.abs(cartesianCoordinate.getyCoordinate() - this.yCoordinate) <= tolerance;
-        boolean z_equals = Math.abs(cartesianCoordinate.getzCoordinate() - this.zCoordinate) <= tolerance;
-        return x_equals && y_equals && z_equals;
-    }
+    
 }
-
