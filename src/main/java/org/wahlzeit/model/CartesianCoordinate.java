@@ -97,13 +97,17 @@ public class CartesianCoordinate extends AbstractCoordinate{
      * @return sphericCoordinate spheric coordinate object with phi, theta and radius component
      */
     @Override
-    public SphericCoordinate asSphericCoordinate() {
-        double radius = Math.sqrt(Math.pow(this.xCoordinate, 2) + Math.pow(this.yCoordinate, 2) +
-                Math.pow(this.zCoordinate, 2));
-        double theta = Math.acos(this.zCoordinate / radius);
-        double phi = Math.atan(this.yCoordinate / this.xCoordinate);
-        SphericCoordinate sphericCoordinate = new SphericCoordinate(phi, theta, radius);
-        return sphericCoordinate;
-    }
+     public SphericCoordinate asSphericCoordinate() {
+        if(xCoordinate == 0.0 && yCoordinate == 0.0 && zCoordinate == 0.0){
+            SphericCoordinate isOrigin = new SphericCoordinate(0.0,0.0,0.0);
+            return isOrigin;
+        } else {
+            double radius = Math.sqrt(Math.pow(this.xCoordinate, 2) + Math.pow(this.yCoordinate, 2) +
+                    Math.pow(this.zCoordinate, 2));
+            double theta = Math.acos(this.zCoordinate / radius);
+            double phi = Math.atan(this.yCoordinate / this.xCoordinate);
+            SphericCoordinate sphericCoordinate = new SphericCoordinate(phi, theta, radius);
+            return sphericCoordinate;
+        }
     
 }
