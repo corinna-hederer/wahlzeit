@@ -24,16 +24,6 @@ public class CartesianCoordinateTest {
         Assert.assertFalse(isEqual);
     }
 
-    @Test
-    public void testGetDistance() {
-        CartesianCoordinate a = new CartesianCoordinate(1,1, 1);
-        CartesianCoordinate b = new CartesianCoordinate(2,2,2);
-
-        double distance = a.getDistance(b);
-        double correctValue = Math.sqrt(3);
-
-        Assert.assertEquals(correctValue, distance, 0.00001);
-    }
 
     @Test
     public void testGetCartesianDistance(){
@@ -58,7 +48,19 @@ public class CartesianCoordinateTest {
         Assert.assertEquals(correctValue.getRadius(), b.getRadius(), 0.00001);
 
     }
+    
+    @Test
+    public void testOriginAsSphericCoordinate(){
+        CartesianCoordinate a = new CartesianCoordinate(0.0, 0.0, 0.0);
+        SphericCoordinate b = a.asSphericCoordinate();
+        SphericCoordinate correctValue = new SphericCoordinate(0.0, 0.0, 0.0);
 
+        Assert.assertEquals(correctValue.getPhi(), b.getPhi(), 0.0);
+        Assert.assertEquals(correctValue.getTheta(), b.getTheta(), 0.0);
+        Assert.assertEquals(correctValue.getRadius(), b.getRadius(), 0.0);
+
+    }
+    
     @Test
     public void testGetCentralAngle(){
         CartesianCoordinate a = new CartesianCoordinate(1,1,1);
