@@ -62,16 +62,16 @@ public class CartesianCoordinate extends AbstractCoordinate{
      * @methodtype set
      */
 
-    public double setxCoordinate() {
-        return xCoordinate;
+     public double setxCoordinate(double xCoordinate) {
+        return this.xCoordinate = xCoordinate;
     }
 
-    public double setyCoordinate() {
-        return yCoordinate;
+    public double setyCoordinate(double yCoordinate) {
+        return this.yCoordinate = yCoordinate;
     }
 
-    public double setzCoordinate() {
-        return zCoordinate;
+    public double setzCoordinate(double zCoordinate) {
+        return this.zCoordinate = zCoordinate;
     }
 
 
