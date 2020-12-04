@@ -109,5 +109,6 @@ public class CartesianCoordinate extends AbstractCoordinate{
             SphericCoordinate sphericCoordinate = new SphericCoordinate(phi, theta, radius);
             return sphericCoordinate;
         }
+     }
     
 }
