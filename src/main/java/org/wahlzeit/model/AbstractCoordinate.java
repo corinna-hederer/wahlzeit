@@ -26,8 +26,7 @@ public abstract class AbstractCoordinate implements Coordinate{
 
     @Override
     public int hashCode() {
-        return super.hashCode();
-        //return Objects.hash(this.asCartesianCoordinate().getxCoordinate(), this.asCartesianCoordinate().getyCoordinate(), this.asCartesianCoordinate()getzCoordinate);
+        return super.hashCode();  
     }
 
 
