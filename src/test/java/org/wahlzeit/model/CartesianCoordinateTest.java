@@ -72,6 +72,26 @@ public class CartesianCoordinateTest {
         Assert.assertEquals(correctValue, centralAngle, 0.01);
 
     }
+    
+    @Test(expected = NullPointerException.class)
+    public void testCartesianDistanceNull() throws NullPointerException{
+        CartesianCoordinate a = new CartesianCoordinate(1.0,1.0,1.0);
+        CartesianCoordinate b = null;
+        a.getCartesianDistance(b);
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testCartesianCoordinateClassInvariant() throws AssertionError{
+        CartesianCoordinate a = new CartesianCoordinate(Double.NaN, 1.0, 2.0);
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testSetInvalidCartesianCoordinate() throws AssertionError{
+        CartesianCoordinate a = new CartesianCoordinate(1.0,1.0,1.0);
+        a.setxCoordinate(Double.NaN);
+        a.setyCoordinate(Double.NaN);
+        a.setzCoordinate(Double.NaN);
+    }
 
 }
 
