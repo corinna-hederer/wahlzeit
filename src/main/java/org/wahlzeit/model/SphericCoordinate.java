@@ -24,6 +24,7 @@ public class SphericCoordinate extends AbstractCoordinate{
         this.phi = phi;
         this.theta = theta;
         this.radius = radius;
+        this.assertClassInvariant();
     }
 
 
@@ -50,21 +51,29 @@ public class SphericCoordinate extends AbstractCoordinate{
      */
 
     public void setPhi(double phi) {
+        assertValidDouble(phi);
         this.phi = phi;
     }
 
     public void setTheta(double theta) {
+        assertValidDouble(theta);
         this.theta = theta;
     }
 
     public void setRadius(double radius) {
+        assertValidDouble(radius);
         this.radius = radius;
     }
-    
+
 
     /**
      * Implements methods in interface Coordinate
      */
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(phi, theta, radius);
+    }
 
     /**
      * Transforms spheric coordinate into cartesian coordinate
@@ -74,6 +83,8 @@ public class SphericCoordinate extends AbstractCoordinate{
 
     @Override
     public CartesianCoordinate asCartesianCoordinate() {
+        assertClassInvariant();
+        assertNotNull(this);
         double x = this.radius * Math.sin(this.theta) * Math.cos(this.phi);
         double y = this.radius * Math.sin(this.theta) * Math.sin(this.phi);
         double z = this.radius * Math.cos(this.theta);
@@ -89,6 +100,35 @@ public class SphericCoordinate extends AbstractCoordinate{
      */
     @Override
     public SphericCoordinate asSphericCoordinate() {
+        assertClassInvariant();
+        assertNotNull(this);
         return this;
     }
+
+    /**
+     * Get central angle between two spheric coordinates
+     * @methodtype get
+     * @return centralAngle great circle distance
+     */
+    @Override
+    public double getCentralAngle(Coordinate coordinate) throws ArithmeticException{
+        assertClassInvariant();
+        assertNotNull(this);
+        SphericCoordinate sphericCoordinate = coordinate.asSphericCoordinate();
+        double centralAngle = Math.toDegrees(Math.acos(Math.sin(Math.toRadians(this.phi)) *
+                Math.sin(Math.toRadians(sphericCoordinate.getPhi())) +
+                Math.cos(Math.toRadians(this.phi)) *
+                Math.cos(Math.toRadians(sphericCoordinate.getPhi())) *
+                Math.cos(Math.toRadians(sphericCoordinate.getTheta() - this.theta))));
+        return centralAngle;
+    }
+
+
+    @Override
+    protected void assertClassInvariant() {
+        assertValidDouble(this.phi);
+        assertValidDouble(this.theta);
+        assertValidDouble(this.radius);
+    }
+
 }
