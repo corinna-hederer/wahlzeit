@@ -61,4 +61,25 @@ public class SphericCoordinateTest {
         Assert.assertEquals(correctValue, centralAngle, 0.01);
 
     }
+    
+    
+    @Test(expected = AssertionError.class)
+    public void testSphericCoordinateClassInvariant() throws AssertionError{
+        SphericCoordinate a = new SphericCoordinate(Double.NaN, 1.0, 2.0);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testCentralAngleNull() throws NullPointerException{
+        SphericCoordinate a = new SphericCoordinate(1.0,1.0,1.0);
+        SphericCoordinate b = null;
+        a.getCentralAngle(b);
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testSetInvalidSphericCoordinate() throws AssertionError{
+        SphericCoordinate a = new SphericCoordinate(1.0,1.0,1.0);
+        a.setPhi(Double.NaN);
+        a.setTheta(Double.NaN);
+        a.setRadius(Double.NaN);
+    }
 }
