@@ -32,6 +32,9 @@ public class BuildingPhoto extends Photo{
      */
     public BuildingPhoto(Building building){
         super();
+        if(building == null){
+            throw new NullPointerException("Building is null");
+        }
         this.building = building;
     }
 
@@ -42,6 +45,9 @@ public class BuildingPhoto extends Photo{
      */
     public BuildingPhoto(ResultSet rset) throws SQLException {
         super(rset);
+        if(rset == null){
+            throw new NullPointerException("ResultSet is null");
+        }
         readFrom(rset);
     }
 
@@ -96,6 +102,9 @@ public class BuildingPhoto extends Photo{
      * @param building Building object
      */
     public void setBuilding(Building building) {
+        if(building == null){
+            throw new IllegalArgumentException("Building is null");
+        }
         this.building = building;
     }
 }
