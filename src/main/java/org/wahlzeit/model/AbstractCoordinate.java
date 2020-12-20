@@ -68,28 +68,68 @@ public abstract class AbstractCoordinate implements Coordinate{
     }
 
 
-
-    /**
-     * Check if coordinate is not null
-     * @param c Coordinate object
-     * @methodtype condition
-     */
-
-    public void assertNotNull(Coordinate c) throws NullPointerException{
-        assert c != null;
-    }
-
     protected abstract void assertClassInvariant();
 
+    /**
+     * Precondition
+     * Check if object is null
+     * @param o Object
+     * @methodtype condition
+     */
+    public void assertNotNull(Object o) {
+        if(o == null){
+            throw new NullPointerException("Object is null");
+        }
+    }
 
     /**
+     * Precondition
      * Check if double values are valid
      * @param d double value
      * @methodtype condition
      */
-
     protected void assertValidDouble(double d) {
-        assert Double.isFinite(d);
+        if(!Double.isFinite(d)) {
+            throw new IllegalArgumentException("Double argument is NaN or infinity");
+        }
+    }
+
+    /**
+     * Precondition
+     * Test if double values are NaN
+     * @param d double value
+     * @methodtype condition
+     */
+    public void assertIsNaN(double d) {
+        if(Double.isNaN(d)){
+            throw new NumberFormatException("Double value is NaN");
+        }
+    }
+
+    /**
+     * Precondition
+     * Test if double values are negative
+     * @param d double value
+     * @methodtype condition
+     */
+    public void assertNotNegative(double d) {
+        assertValidDouble(d);
+        if(d < 0.0){
+            throw new IllegalArgumentException("Double value is negative");
+        }
+    }
+
+    /**
+     * Precondition
+     * Test if double value is in defined range of values
+     * @param d double value
+     * @methodtype condition
+     */
+    public void assertInRange(double d, double min, double max){
+        assertValidDouble(d);
+        if(d < min || d > max){
+            throw new IllegalArgumentException("Double value out of defined range");
+        }
     }
 
 }
