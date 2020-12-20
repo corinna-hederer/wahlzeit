@@ -63,7 +63,22 @@ public class BuildingPhotoFactory extends PhotoFactory{
      * @methodtype factory
      */
     public BuildingPhoto createBuildingPhoto(PhotoId id) {
+        if(id == null){
+            throw new IllegalArgumentException("PhotoId is null");
+        }
         return new BuildingPhoto(id);
+    }
+
+
+    /**
+     * @methodtype factory
+     */
+
+    public BuildingPhoto createBuildingPhoto(Building building) {
+        if(building == null){
+            throw new IllegalArgumentException("Building is null");
+        }
+        return new BuildingPhoto(building);
     }
 
 
@@ -71,6 +86,9 @@ public class BuildingPhotoFactory extends PhotoFactory{
      *
      */
     public BuildingPhoto createBuildingPhoto(ResultSet rs) throws SQLException {
+        if(rs == null){
+            throw new IllegalArgumentException("ResultSet is null");
+        }
         return new BuildingPhoto(rs);
     }
 
