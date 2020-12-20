@@ -21,9 +21,14 @@ public class CartesianCoordinate extends AbstractCoordinate{
      */
 
     public CartesianCoordinate(double xCoordinate, double yCoordinate, double zCoordinate){
+        assertValidDouble(xCoordinate);
+        assertValidDouble(yCoordinate);
+        assertValidDouble(zCoordinate);
+
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
         this.zCoordinate = zCoordinate;
+
         assertClassInvariant();
     }
 
@@ -96,6 +101,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
     @Override
     public boolean isEqual(Coordinate coordinate) {
         this.assertNotNull(coordinate);
+        assertClassInvariant();
         if (this == coordinate) {
             return true;
         }
@@ -104,6 +110,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
         boolean x_equals = Math.abs(cartesianCoordinate.getxCoordinate() - this.xCoordinate) <= tolerance;
         boolean y_equals = Math.abs(cartesianCoordinate.getyCoordinate() - this.yCoordinate) <= tolerance;
         boolean z_equals = Math.abs(cartesianCoordinate.getzCoordinate() - this.zCoordinate) <= tolerance;
+        assertClassInvariant();
         return x_equals && y_equals && z_equals;
     }
 
@@ -132,7 +139,11 @@ public class CartesianCoordinate extends AbstractCoordinate{
         double distance = Math.sqrt(Math.pow((otherCartesianCoordinate.getxCoordinate() - cartesianCoordinate.getxCoordinate()), 2) +
                 Math.pow((otherCartesianCoordinate.getyCoordinate() - cartesianCoordinate.getyCoordinate()), 2) +
                 Math.pow((otherCartesianCoordinate.getzCoordinate() - cartesianCoordinate.getzCoordinate()), 2) );
-
+        assertNotNegative(distance);
+        if(distance < 0.0){
+            throw new ArithmeticException("Error in cartesian distance calculation");
+        }
+        assertClassInvariant();
         return distance;
     }
 
@@ -155,6 +166,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
             double theta = Math.acos(this.zCoordinate / radius);
             double phi = Math.atan(this.yCoordinate / this.xCoordinate);
             SphericCoordinate sphericCoordinate = new SphericCoordinate(phi, theta, radius);
+            assertClassInvariant();
             return sphericCoordinate;
         }
     }
