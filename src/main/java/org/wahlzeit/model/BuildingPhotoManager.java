@@ -25,9 +25,12 @@ public class BuildingPhotoManager extends PhotoManager{
      * @throws SQLException
      */
     protected BuildingPhoto createObject(ResultSet rset) throws SQLException {
+        if(rset == null){
+            throw new IllegalArgumentException("ResultSet is null");
+        }
         return BuildingPhotoFactory.getInstance().createBuildingPhoto(rset);
     }
-    
+
     /**
      * create a BuildingPhoto File to save picture
      * @methodtype command
@@ -36,9 +39,13 @@ public class BuildingPhotoManager extends PhotoManager{
      * @throws Exception
      */
     public BuildingPhoto createPhoto(File file) throws Exception {
+        if(file == null){
+            throw new IllegalArgumentException("File is null");
+        }
         PhotoId id = PhotoId.getNextId();
         BuildingPhoto pic = (BuildingPhoto) PhotoUtil.createPhoto(file, id);
         addPhoto(pic);
         return pic;
     }
+
 }
