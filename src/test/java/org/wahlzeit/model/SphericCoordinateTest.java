@@ -63,8 +63,8 @@ public class SphericCoordinateTest {
     }
     
     
-    @Test(expected = AssertionError.class)
-    public void testSphericCoordinateClassInvariant() throws AssertionError{
+    @Test(expected = IllegalArgumentException.class)
+    public void testSphericCoordinateClassInvariant() throws IllegalArgumentException{
         SphericCoordinate a = new SphericCoordinate(Double.NaN, 1.0, 2.0);
     }
 
@@ -75,8 +75,8 @@ public class SphericCoordinateTest {
         a.getCentralAngle(b);
     }
 
-    @Test(expected = AssertionError.class)
-    public void testSetInvalidSphericCoordinate() throws AssertionError{
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetInvalidSphericCoordinate() throws IllegalArgumentException{
         SphericCoordinate a = new SphericCoordinate(1.0,1.0,1.0);
         a.setPhi(Double.NaN);
         a.setTheta(Double.NaN);
