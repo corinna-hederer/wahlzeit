@@ -56,12 +56,12 @@ public class Photo extends DataObject {
 	public static final int MAX_PHOTO_HEIGHT = 600;
 	public static final int MAX_THUMB_PHOTO_WIDTH = 105;
 	public static final int MAX_THUMB_PHOTO_HEIGHT = 150;
-	
+
 	/**
 	 * Initialise location
 	 */
 	public Location loc = null;
-	
+
 	/**
 	 * 
 	 */
@@ -122,6 +122,9 @@ public class Photo extends DataObject {
 	 * @methodtype constructor
 	 */
 	public Photo(PhotoId myId) {
+		if(myId == null){
+			throw new IllegalArgumentException("PhotoId is null");
+		}
 		id = myId;
 		
 		incWriteCount();
@@ -132,6 +135,9 @@ public class Photo extends DataObject {
 	 * @methodtype constructor
 	 */
 	public Photo(ResultSet rset) throws SQLException {
+		if(rset == null){
+			throw new IllegalArgumentException("ResultSet is null");
+		}
 		readFrom(rset);
 	}
 
@@ -147,6 +153,9 @@ public class Photo extends DataObject {
 	 * 
 	 */
 	public void readFrom(ResultSet rset) throws SQLException {
+		if(rset == null){
+			throw new IllegalArgumentException("ResultSet is null");
+		}
 		id = PhotoId.getIdFromInt(rset.getInt("id"));
 
 		ownerId = rset.getInt("owner_id");
@@ -169,7 +178,8 @@ public class Photo extends DataObject {
 		creationTime = rset.getLong("creation_time");
 
 		maxPhotoSize = PhotoSize.getFromWidthHeight(width, height);
-		
+
+
 		//Declare Location loc
 		loc = new Location(
 				new CartesianCoordinate(
@@ -184,6 +194,9 @@ public class Photo extends DataObject {
 	 * 
 	 */
 	public void writeOn(ResultSet rset) throws SQLException {
+		if(rset == null){
+			throw new IllegalArgumentException("ResultSet is null");
+		}
 		rset.updateInt("id", id.asInt());
 		rset.updateInt("owner_id", ownerId);
 		rset.updateString("owner_name", ownerName);
@@ -197,13 +210,13 @@ public class Photo extends DataObject {
 		rset.updateInt("status", status.asInt());
 		rset.updateInt("praise_sum", praiseSum);
 		rset.updateInt("no_votes", noVotes);
-		rset.updateLong("creation_time", creationTime);	
-		
+		rset.updateLong("creation_time", creationTime);
+
 		//Add coordinates if location is not empty
 		if(loc != null){
-			rset.updateDouble("coordinate_x", loc.cartesianCoordinate.getxCoordinate());
-			rset.updateDouble("coordinate_y", loc.cartesianCoordinate.getyCoordinate());
-			rset.updateDouble("coordinate_z", loc.cartesianCoordinate.getzCoordinate());
+			rset.updateDouble("coordinate_x", loc.coordinate.asCartesianCoordinate().getxCoordinate());
+			rset.updateDouble("coordinate_y", loc.coordinate.asCartesianCoordinate().getyCoordinate());
+			rset.updateDouble("coordinate_z", loc.coordinate.asCartesianCoordinate().getzCoordinate());
 		}
 	}
 
