@@ -8,10 +8,15 @@ public class SphericCoordinate extends AbstractCoordinate{
      * @param phi latitude
      * @param theta longitude
      * @param radius radius or radial distance
+     * @param ANGLE_MIN minimal double value of central angle in degrees
+     * @param ANGLE_MAX maximal double value of central angle in degrees
      */
     private double phi;
     private double theta;
     private double radius;
+
+    private static double ANGLE_MIN = 0.0;
+    private static double ANGLE_MAX = 360.0;
 
     /**
      * Creates a SphericCoordinate instance using the arguments phi, theta and radius
@@ -21,10 +26,15 @@ public class SphericCoordinate extends AbstractCoordinate{
      * @param radius radius or radial distance
      */
     public SphericCoordinate(double phi, double theta, double radius) {
+        assertValidDouble(phi);
+        assertValidDouble(theta);
+        assertValidDouble(radius);
+
         this.phi = phi;
         this.theta = theta;
         this.radius = radius;
-        this.assertClassInvariant();
+
+        assertClassInvariant();
     }
 
 
@@ -89,6 +99,7 @@ public class SphericCoordinate extends AbstractCoordinate{
         double y = this.radius * Math.sin(this.theta) * Math.sin(this.phi);
         double z = this.radius * Math.cos(this.theta);
         CartesianCoordinate cartesianCoordinate = new CartesianCoordinate(x, y, z);
+        assertClassInvariant();
         return cartesianCoordinate;
     }
 
@@ -111,7 +122,7 @@ public class SphericCoordinate extends AbstractCoordinate{
      * @return centralAngle great circle distance
      */
     @Override
-    public double getCentralAngle(Coordinate coordinate) throws ArithmeticException{
+    public double getCentralAngle(Coordinate coordinate){
         assertClassInvariant();
         assertNotNull(this);
         SphericCoordinate sphericCoordinate = coordinate.asSphericCoordinate();
@@ -120,6 +131,11 @@ public class SphericCoordinate extends AbstractCoordinate{
                 Math.cos(Math.toRadians(this.phi)) *
                 Math.cos(Math.toRadians(sphericCoordinate.getPhi())) *
                 Math.cos(Math.toRadians(sphericCoordinate.getTheta() - this.theta))));
+        assertInRange(centralAngle, SphericCoordinate.ANGLE_MIN, SphericCoordinate.ANGLE_MAX);
+        if(centralAngle < SphericCoordinate.ANGLE_MIN || centralAngle > SphericCoordinate.ANGLE_MAX){
+            throw new ArithmeticException("Error in central angle calculation, angle out of range");
+        }
+        assertClassInvariant();
         return centralAngle;
     }
 
