@@ -80,13 +80,13 @@ public class CartesianCoordinateTest {
         a.getCartesianDistance(b);
     }
 
-    @Test(expected = AssertionError.class)
-    public void testCartesianCoordinateClassInvariant() throws AssertionError{
+    @Test(expected = IllegalArgumentException.class)
+    public void testCartesianCoordinateClassInvariant() throws IllegalArgumentException{
         CartesianCoordinate a = new CartesianCoordinate(Double.NaN, 1.0, 2.0);
     }
 
-    @Test(expected = AssertionError.class)
-    public void testSetInvalidCartesianCoordinate() throws AssertionError{
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetInvalidCartesianCoordinate() throws IllegalArgumentException{
         CartesianCoordinate a = new CartesianCoordinate(1.0,1.0,1.0);
         a.setxCoordinate(Double.NaN);
         a.setyCoordinate(Double.NaN);
