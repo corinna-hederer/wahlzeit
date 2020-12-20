@@ -7,14 +7,17 @@ package org.wahlzeit.model;
 
 public class Location {
 
-    public CartesianCoordinate cartesianCoordinate;
+    public Coordinate coordinate;
 
     /**
      * Creates a Location instance using the argument cartesianCoordinate
      * @methodtype constructor
      */
-    public Location(CartesianCoordinate cartesianCoordinate){
-        this.cartesianCoordinate = cartesianCoordinate;
+    public Location(Coordinate coordinate){
+        if(coordinate == null){
+            throw new IllegalArgumentException("Coordinate is null");
+        }
+        this.coordinate = coordinate;
     }
 
 }
