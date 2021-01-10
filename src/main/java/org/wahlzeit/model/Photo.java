@@ -182,11 +182,11 @@ public class Photo extends DataObject {
 
 		//Declare Location loc
 		loc = new Location(
-				new CartesianCoordinate(
-						rset.getDouble("coordinate_x"),
-						rset.getDouble("coordinate_y"),
-						rset.getDouble("coordinate_z")
-						)
+			CartesianCoordinate.getOrCreateCartesianCoordinate(
+				rset.getDouble("coordinate_x"),
+				rset.getDouble("coordinate_y"),
+				rset.getDouble("coordinate_z")
+			)
 		);
 	}
 	
