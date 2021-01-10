@@ -1,6 +1,7 @@
 package org.wahlzeit.model;
 
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A cartesianCoordinate represents the exact position in a three-dimensional space where a photo was taken
@@ -8,9 +9,12 @@ import java.util.Objects;
 
 public class CartesianCoordinate extends AbstractCoordinate{
 
-    private double xCoordinate;
-    private double yCoordinate;
-    private double zCoordinate;
+    private final double xCoordinate;
+    private final double yCoordinate;
+    private final double zCoordinate;
+
+    //map to share coordinates
+    private static ConcurrentHashMap<Integer, CartesianCoordinate> cartesianCoordinateMap = new ConcurrentHashMap<>();
 
     /**
      * Creates a cartesianCoordinate instance using the arguments xCoordinate, yCoordinate and zCoordinate
@@ -20,7 +24,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
      * @param zCoordinate z component of cartesianCoordinate
      */
 
-    public CartesianCoordinate(double xCoordinate, double yCoordinate, double zCoordinate){
+    private CartesianCoordinate(double xCoordinate, double yCoordinate, double zCoordinate){
         assertValidDouble(xCoordinate);
         assertValidDouble(yCoordinate);
         assertValidDouble(zCoordinate);
@@ -34,15 +38,35 @@ public class CartesianCoordinate extends AbstractCoordinate{
 
 
     /**
-     * Default CartesianCoordinate, whose x, y and z components are initialised with 0.0
-     * @methodtype constructor
+     *  Gets or Creates Coordinate with given parameter
+     *  Coordinate is immutable and shared
+     * @methodtype helper
+     * @param xCoordinate double
+     * @param yCoordinate double
+     * @param zCoordinate double
+     * @return cartesian coordinate
+     */
+    public static CartesianCoordinate getOrCreateCartesianCoordinate(double xCoordinate, double yCoordinate, double zCoordinate){
+        CartesianCoordinate cartesianCoordinate = new CartesianCoordinate(xCoordinate, yCoordinate, zCoordinate);
+        int coordinateHash = cartesianCoordinate.hashCode();
+        synchronized (cartesianCoordinateMap) {
+            if (cartesianCoordinateMap.get(coordinateHash) != null) {
+                cartesianCoordinateMap.put(coordinateHash, cartesianCoordinate);
+            }
+            return cartesianCoordinate;
+        }
+    }
+
+
+    /**
+     * Gets or creates cartesian coordinate whose x, y and z components are initialised with default parameter 0, 0, 0
+     * @methodtype helper
      */
 
-    public CartesianCoordinate(){
-        this.xCoordinate = 0.0;
-        this.yCoordinate = 0.0;
-        this.zCoordinate = 0.0;
+    public static CartesianCoordinate getOrCreateCartesianCoordinate(){
+        return CartesianCoordinate.getOrCreateCartesianCoordinate(0,0,0);
     }
+
 
 
     /**
@@ -62,26 +86,6 @@ public class CartesianCoordinate extends AbstractCoordinate{
         return zCoordinate;
     }
 
-
-    /**
-     * Setter methods for x, y, and z component
-     * @methodtype set
-     */
-
-    public double setxCoordinate(double xCoordinate) {
-        assertValidDouble(xCoordinate);
-        return this.xCoordinate = xCoordinate;
-    }
-
-    public double setyCoordinate(double yCoordinate) {
-        assertValidDouble(yCoordinate);
-        return this.yCoordinate = yCoordinate;
-    }
-
-    public double setzCoordinate(double zCoordinate) {
-        assertValidDouble(zCoordinate);
-        return this.zCoordinate = zCoordinate;
-    }
 
 
     /**
@@ -158,14 +162,14 @@ public class CartesianCoordinate extends AbstractCoordinate{
         assertClassInvariant();
         assertNotNull(this);
         if(xCoordinate == 0.0 && yCoordinate == 0.0 && zCoordinate == 0.0){
-            SphericCoordinate isOrigin = new SphericCoordinate(0.0,0.0,0.0);
+            SphericCoordinate isOrigin = SphericCoordinate.getOrCreateSphericCoordinate(0.0,0.0,0.0);
             return isOrigin;
         } else {
             double radius = Math.sqrt(Math.pow(this.xCoordinate, 2) + Math.pow(this.yCoordinate, 2) +
                     Math.pow(this.zCoordinate, 2));
             double theta = Math.acos(this.zCoordinate / radius);
             double phi = Math.atan(this.yCoordinate / this.xCoordinate);
-            SphericCoordinate sphericCoordinate = new SphericCoordinate(phi, theta, radius);
+            SphericCoordinate sphericCoordinate = SphericCoordinate.getOrCreateSphericCoordinate(phi, theta, radius);
             assertClassInvariant();
             return sphericCoordinate;
         }
@@ -179,4 +183,3 @@ public class CartesianCoordinate extends AbstractCoordinate{
         assertValidDouble(this.zCoordinate);
     }
 }
-
