@@ -1,6 +1,7 @@
 package org.wahlzeit.model;
 
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SphericCoordinate extends AbstractCoordinate{
 
@@ -10,13 +11,18 @@ public class SphericCoordinate extends AbstractCoordinate{
      * @param radius radius or radial distance
      * @param ANGLE_MIN minimal double value of central angle in degrees
      * @param ANGLE_MAX maximal double value of central angle in degrees
+     * @param sphericCoorinateMap concurrent hash map of spheric coordinates
      */
-    private double phi;
-    private double theta;
-    private double radius;
+    private final double phi;
+    private final double theta;
+    private final double radius;
 
     private static double ANGLE_MIN = 0.0;
     private static double ANGLE_MAX = 360.0;
+
+    //map to share coordinates
+    private static ConcurrentHashMap<Integer, SphericCoordinate> sphericCoordinateMap = new ConcurrentHashMap<>();
+
 
     /**
      * Creates a SphericCoordinate instance using the arguments phi, theta and radius
@@ -25,7 +31,7 @@ public class SphericCoordinate extends AbstractCoordinate{
      * @param theta longitude
      * @param radius radius or radial distance
      */
-    public SphericCoordinate(double phi, double theta, double radius) {
+    private SphericCoordinate(double phi, double theta, double radius) {
         assertValidDouble(phi);
         assertValidDouble(theta);
         assertValidDouble(radius);
@@ -37,6 +43,29 @@ public class SphericCoordinate extends AbstractCoordinate{
         assertClassInvariant();
     }
 
+    /**
+     *  Gets or Creates Coordinate with given parameter
+     *  Coordinate is immutable and shared
+     * @methodtype helper
+     * @param phi double
+     * @param theta double
+     * @param radius double
+     * @return spheric coordinate
+     */
+    public static SphericCoordinate getOrCreateSphericCoordinate(double phi, double theta, double radius){
+        SphericCoordinate sphericCoordinate = new SphericCoordinate(phi, theta, radius);
+        int coordinateHash = sphericCoordinate.hashCode();
+        synchronized (sphericCoordinateMap) {
+            if (sphericCoordinateMap.get(coordinateHash) != null) {
+                sphericCoordinateMap.put(coordinateHash, sphericCoordinate);
+            }
+            return sphericCoordinate;
+        }
+    }
+
+    public static SphericCoordinate getOrCreateSphericCoordinate(){
+        return SphericCoordinate.getOrCreateSphericCoordinate(0,0,0);
+    }
 
     /**
      * Getter methods for phi, theta and radius
@@ -53,26 +82,6 @@ public class SphericCoordinate extends AbstractCoordinate{
 
     public double getRadius() {
         return radius;
-    }
-
-    /**
-     * Setter methods for phi, theta, radius
-     * @methodtype set
-     */
-
-    public void setPhi(double phi) {
-        assertValidDouble(phi);
-        this.phi = phi;
-    }
-
-    public void setTheta(double theta) {
-        assertValidDouble(theta);
-        this.theta = theta;
-    }
-
-    public void setRadius(double radius) {
-        assertValidDouble(radius);
-        this.radius = radius;
     }
 
 
@@ -98,7 +107,7 @@ public class SphericCoordinate extends AbstractCoordinate{
         double x = this.radius * Math.sin(this.theta) * Math.cos(this.phi);
         double y = this.radius * Math.sin(this.theta) * Math.sin(this.phi);
         double z = this.radius * Math.cos(this.theta);
-        CartesianCoordinate cartesianCoordinate = new CartesianCoordinate(x, y, z);
+        CartesianCoordinate cartesianCoordinate = CartesianCoordinate.getOrCreateCartesianCoordinate(x, y, z);
         assertClassInvariant();
         return cartesianCoordinate;
     }
