@@ -20,6 +20,7 @@
 
 package org.wahlzeit.model;
 
+import org.wahlzeit.utils.PatternInstance;
 import java.sql.*;
 
 import org.wahlzeit.services.*;
@@ -27,6 +28,13 @@ import org.wahlzeit.services.*;
 /**
  * An Abstract Factory for creating photos and related objects.
  */
+
+@PatternInstance(
+		patternName = "Abstract Factory",
+		participants = { "AbstractFactory", "ConcreteFactory"},
+		participantClasses = {"Photo", "PhotoFactory", "BuildingPhoto", "BuildingPhotoFactory"}
+)
+
 public class PhotoFactory {
 	
 	/**
