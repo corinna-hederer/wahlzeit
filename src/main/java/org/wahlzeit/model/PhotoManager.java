@@ -24,6 +24,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.*;
 
+import org.wahlzeit.utils.PatternInstance;
 import org.wahlzeit.main.*;
 import org.wahlzeit.services.*;
 
