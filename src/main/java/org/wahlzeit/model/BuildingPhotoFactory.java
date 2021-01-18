@@ -1,9 +1,16 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.utils.PatternInstance;
 import org.wahlzeit.services.SysLog;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+@PatternInstance(
+        patternName = "Abstract Factory",
+        participants = {"AbstractFactory", "ConcreteFactory"},
+        participantClasses = {"Photo", "PhotoFactory", "BuildingPhoto", "BuildingPhotoFactory"}
+)
 
 public class BuildingPhotoFactory extends PhotoFactory{
 
