@@ -1,7 +1,15 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.utils.PatternInstance;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+
+
+@PatternInstance(
+        patternName = "Value Object",
+        participants = {"ValueObject"},
+        participantClasses = {"AbstractCoordinate", "CartesianCoordinate", "SphericCoordinate"}
+)
 
 public class SphericCoordinate extends AbstractCoordinate{
 
