@@ -1,11 +1,18 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.utils.PatternInstance;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A cartesianCoordinate represents the exact position in a three-dimensional space where a photo was taken
  */
+
+@PatternInstance(
+        patternName = "Value Object",
+        participants = {"ValueObject"},
+        participantClasses = {"AbstractCoordinate", "CartesianCoordinate", "SphericCoordinate"}
+)
 
 public class CartesianCoordinate extends AbstractCoordinate{
 
