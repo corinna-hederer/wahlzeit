@@ -1,9 +1,16 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.utils.PatternInstance;
 import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+@PatternInstance(
+        patternName = "Singleton",
+        participants = {},
+        participantClasses = {"PhotoManager", "BuildingPhotoManager"}
+)
 
 public class BuildingPhotoManager extends PhotoManager{
 
