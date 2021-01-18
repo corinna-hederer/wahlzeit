@@ -1,5 +1,14 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.utils.PatternInstance;
+
+
+@PatternInstance(
+        patternName = "Bridge",
+        participants = {"Implementor"},
+        participantClasses = {"AbstractCoordinate", "CartesianCoordinate", "Coordinate", "SphericCoordinate"}
+)
+
 public abstract class AbstractCoordinate implements Coordinate{
 
     /**
