@@ -7,9 +7,8 @@ public class BuildingPhotoTest {
 
     @Test
     public void testCreateBuildingPhoto(){
-        Building testBuilding = new Building(1955, 1200.75, "Apartment Building", 5,
-                true, false, false);
-
+        BuildingType testType = new BuildingType("Supermarket", 2015, true);
+        Building testBuilding = new Building(testType);
         BuildingPhoto testPhoto = new BuildingPhoto(testBuilding);
 
         Assert.assertEquals(testPhoto.getClass(), BuildingPhoto.class);
@@ -21,3 +20,6 @@ public class BuildingPhotoTest {
         BuildingPhoto bp = new BuildingPhoto(b);
     }
 }
+
+
+
