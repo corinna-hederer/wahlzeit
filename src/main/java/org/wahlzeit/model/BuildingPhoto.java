@@ -1,8 +1,10 @@
 package org.wahlzeit.model;
 
 import org.wahlzeit.utils.PatternInstance;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 
 
 @PatternInstance(
@@ -12,6 +14,8 @@ import java.sql.SQLException;
 )
 
 public class BuildingPhoto extends Photo{
+
+    private static BuildingManager buildingManager = BuildingManager.getInstance();
 
     private Building building;
 
@@ -66,15 +70,18 @@ public class BuildingPhoto extends Photo{
      */
     public void readFrom(ResultSet rset) throws SQLException {
         super.readFrom(rset);
-        this.building = new Building(
-            rset.getInt("buildingCompletionYear"),
-            rset.getDouble("buildingCoverage"),
-            rset.getString("buildingType"),
-            rset.getInt("buildingFloor"),
-            rset.getBoolean("buildingPrivateUse"),
-            rset.getBoolean("buildingPublicUse"),
-            rset.getBoolean("buildingCommercialUse")
+        BuildingType buildingType = buildingManager.getOrCreateBuildingType(
+                rset.getString("typeName"),
+                rset.getInt("completionYear"),
+                rset.getBoolean("CommercialUse")
+
         );
+        this.building = buildingManager.createBuilding(
+                buildingType,
+                rset.getString("address")
+        );
+
+
     }
 
     /**
@@ -84,13 +91,9 @@ public class BuildingPhoto extends Photo{
      */
     public void writeOn(ResultSet rset) throws SQLException {
         super.writeOn(rset);
-        rset.updateInt("buildingCompletionYear", building.getCompletionYear());
-        rset.updateDouble("buildingCoverage", building.getCoverage());
-        rset.updateString("buildingType", building.getType());
-        rset.updateInt("buildingFloor", building.getFloor());
-        rset.updateBoolean("buildingPrivateUse", building.isPrivateUse());
-        rset.updateBoolean("buildingPublicUse", building.isPublicUse());
-        rset.updateBoolean("buildingCommercialUse", building.isCommercialUse());
+        rset.updateString("typeName", building.getBuildingType().getTypeName());
+        rset.updateInt("completionYear", building.getBuildingType().getCompletionYear());
+        rset.updateBoolean("commercialUse", building.getBuildingType().isCommercialUse());
     }
 
 
