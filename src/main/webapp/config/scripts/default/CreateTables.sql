@@ -35,13 +35,10 @@ CREATE TABLE photos (
 	coordinate_y double precision,
 	coordinate_z double precision,
 
-	buildingCompletionYear integer,
-	buildingCoverage double,
-	buildingType text,
-    	buildingFloor integer,
-    	buildingPrivateUse boolean,
-    	buildingPublicUse boolean,
-    	buildingCommercialUse boolean
+	typeName text,
+	completionYear integer,
+	commercialUse boolean,
+	address text,
 );
 
 CREATE TABLE tags (
