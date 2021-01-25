@@ -78,5 +78,14 @@ public class SphericCoordinateTest {
     public void testSetInvalidSphericCoordinate() throws IllegalArgumentException{
         SphericCoordinate a = SphericCoordinate.getOrCreateSphericCoordinate(Double.NaN, Double.NaN, Double.NaN);
     }
+    
+    //Shareability
+    @Test
+    public void testSameSphericCoordinate(){
+        SphericCoordinate a = SphericCoordinate.getOrCreateSphericCoordinate(1,2,3);
+        SphericCoordinate b = SphericCoordinate.getOrCreateSphericCoordinate(1,2,3);
+
+        Assert.assertEquals(a, b);
+    }
 
 }
