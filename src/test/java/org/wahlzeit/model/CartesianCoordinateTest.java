@@ -89,5 +89,14 @@ public class CartesianCoordinateTest {
     public void testSetInvalidCartesianCoordinate() throws IllegalArgumentException{
         CartesianCoordinate a = CartesianCoordinate.getOrCreateCartesianCoordinate(Double.NaN,Double.NaN, Double.NaN);
     }
+    
+    //Shareability
+    @Test
+    public void testSameCartesianCoordinate(){
+        CartesianCoordinate a = CartesianCoordinate.getOrCreateCartesianCoordinate(1,1,1);
+        CartesianCoordinate b = CartesianCoordinate.getOrCreateCartesianCoordinate(1,1,1);
+
+        Assert.assertEquals(a, b);
+    }
 
 }
