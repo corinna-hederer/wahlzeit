@@ -5,7 +5,24 @@ import org.wahlzeit.utils.PatternInstance;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+/**
+ * Documentation of instantiation process
+ *
+ * Sequence of method calls that leads to new object:
+ * 1. BuildingPhotoManager::createPhoto -> BuildingPhotoManager is called, createPhoto() from super class PhotoManager is executed to create new object
+ * 2. PhotoUtil::createPhoto -> createPhoto() from PhotoUtils is called by PhotoManager
+ * 3. BuildingPhotoFactory::createBuildingPhoto -> createBuildingPhoto() in BuildingPhotoFactory is called by PhotoUtil
+ * 4. BuildingPhoto::BuildingPhoto -> BuildingPhotoFactory creates BuildingPhoto object by calling the BuildingPhoto constructor
+ * 5. Photo::Photo -> BuildingPhoto calls constructor of super class Photo
+ *
+ * Object creation as a point in the solution space:
+ * 1. Delegation:       separate-object     -> BuildingPhotoManager
+ * 2. Selection:        by-subclassing      -> extends Photo object
+ * 3. Configuration:    in-code             -> PhotoFactory::getInstance
+ * 4. Instantiation:    in-code             -> BuildingPhoto constructor called
+ * 5. Initialization:   by-fixed-signature  -> fixed field assignment in constructor
+ * 6. Building:         default             -> new object creates dependant object structure
+ */
 
 @PatternInstance(
         patternName = "Abstract Factory",
